@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro - FerreterIA</title>
+  <link rel="stylesheet" href="/css/login.css">
+  <link rel="shortcut icon" href="../Img/FAVICON.ico" type="image/x-icon">
+
+  <style>
+    body {
+      background-color: #003366;
+      color: white;
+      font-family: Arial, Helvetica, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .registro-contenedor {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 30px 40px;
+      border-radius: 12px;
+      width: 350px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+    }
+
+    input[type="text"], input[type="password"] {
+      background-color: #fff;
+      color: #000;
+    }
+
+    .tipo-usuario {
+      display: flex;
+      justify-content: space-around;
+      margin: 10px 0;
+    }
+
+    label {
+      font-size: 14px;
+    }
+
+    button {
+      background-color: #0066cc;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-top: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #004c99;
+    }
+
+    .extra-links {
+      margin-top: 15px;
+    }
+
+    .extra-links a {
+      color: #fff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="registro-contenedor">
+    <h2>Crear Cuenta</h2>
+    <form onsubmit="event.preventDefault(); registrar();">
+      <input type="text" id="usuario" placeholder="Usuario" required>
+      <input type="password" id="contraseña" placeholder="Contraseña" required>
+
+      <div class="tipo-usuario">
+        <label><input type="radio" name="tipo" value="cliente" checked> Cliente</label>
+        <label><input type="radio" name="tipo" value="admin"> Administrador</label>
+      </div>
+
+      <button type="submit">Registrar</button>
+    </form>
+
+    <div class="extra-links">
+      <p>¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a></p>
+    </div>
+  </div>
+
+  <script>
+    function registrar() {
+      const usuario = document.getElementById("usuario").value.trim();
+      const contraseña = document.getElementById("contraseña").value.trim();
+      const tipo = document.querySelector('input[name="tipo"]:checked').value;
+
+      if (!usuario || !contraseña) {
+        alert("Por favor completa todos los campos ❌");
+        return;
+      }
+
+      const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+      // Validar si ya existe
+      if (usuarios.some(u => u.usuario === usuario)) {
+        alert("El usuario ya existe ❌");
+        return;
+      }
+
+      // Crear y guardar nuevo usuario
+      usuarios.push({ usuario, contraseña, tipo });
+      localStorage.setItem("usuarios", JSON.stringify(usuarios));
+
+      alert("Cuenta creada exitosamente ✅ Ahora puedes iniciar sesión");
+      window.location.href = "login.html";
+    }
+  </script>
+
+</body>
+</html>
